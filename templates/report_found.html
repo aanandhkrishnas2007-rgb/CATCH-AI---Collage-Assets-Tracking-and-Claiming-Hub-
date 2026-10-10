@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Report Found Item — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="catch-form-card">
+                <h3 class="section-title mb-1"><i class="fa-solid fa-hand-holding-heart text-catch-sky"></i> Report a Found Item</h3>
+                <p class="text-muted mb-4">Thank you for helping a fellow student! You'll earn Catch Points for reporting.</p>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Item Name *</label>
+                            <input type="text" name="item_name" class="form-control" value="{{ form.get('item_name','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Category *</label>
+                            <select name="category" class="form-select" required>
+                                <option value="">Select category</option>
+                                <option>Electronics</option>
+                                <option>Bag / Backpack</option>
+                                <option>ID Card / Documents</option>
+                                <option>Keys</option>
+                                <option>Clothing</option>
+                                <option>Accessories</option>
+                                <option>Books / Stationery</option>
+                                <option>Bottle / Flask</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Brand</label>
+                            <input type="text" name="brand" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Color</label>
+                            <input type="text" name="color" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="3" placeholder="Describe the item in detail..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Unique Marks You Noticed</label>
+                            <input type="text" name="unique_marks" class="form-control" placeholder="Any identifying detail you saw on the item">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date Found</label>
+                            <input type="date" name="date_found" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Time Found</label>
+                            <input type="time" name="time_found" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Found Location</label>
+                            <input type="text" name="location" class="form-control" placeholder="e.g. Cafeteria, near counter 2">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Photo</label>
+                            <input type="file" name="image" class="form-control image-upload-input" accept="image/*" data-preview-target="#foundImgPreview">
+                            <img id="foundImgPreview" class="d-none mt-2 rounded" style="max-width:200px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-catch-primary w-100 mt-4">
+                        <i class="fa-solid fa-paper-plane"></i> Submit Found Item Report
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <h3 class="section-title">Welcome back, {{ current_user.name.split(' ')[0] }} 👋</h3>
+    <p class="text-muted">Here's what's happening with your CATCH activity.</p>
+
+    <div class="row g-4 my-2">
+        <div class="col-md-3 col-6">
+            <div class="stat-card"><h2>{{ stats.lost_count }}</h2><p>Lost Reports</p></div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card"><h2>{{ stats.found_count }}</h2><p>Found Reports</p></div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card"><h2>{{ stats.returned_count }}</h2><p>Items Returned</p></div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-card"><h2>{{ stats.points }}</h2><p>Catch Points</p></div>
+        </div>
+    </div>
+
+    <div class="row g-3 my-3">
+        <div class="col-md-4">
+            <a href="{{ url_for('report_lost') }}" class="btn btn-catch-primary w-100 py-3"><i class="fa-solid fa-magnifying-glass me-2"></i>Report Lost Item</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('report_found') }}" class="btn btn-outline-primary w-100 py-3"><i class="fa-solid fa-hand-holding-heart me-2"></i>Report Found Item</a>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ url_for('leaderboard') }}" class="btn btn-outline-secondary w-100 py-3"><i class="fa-solid fa-trophy me-2"></i>View Leaderboard</a>
+        </div>
+    </div>
+
+    <div class="row g-4 mt-2">
+        <div class="col-lg-7">
+            <div class="catch-card p-4">
+                <h5 class="mb-3">My Lost Items</h5>
+                {% if my_lost %}
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead><tr><th>Item</th><th>Category</th><th>Status</th><th></th></tr></thead>
+                        <tbody>
+                        {% for item in my_lost %}
+                            <tr>
+                                <td>{{ item.item_name }}</td>
+                                <td>{{ item.category }}</td>
+                                <td><span class="badge bg-{{ 'success' if item.status=='returned' else 'secondary' }}">{{ item.status }}</span></td>
+                                <td><a href="{{ url_for('match_results', item_id=item.id) }}" class="btn btn-sm btn-outline-primary">View Matches</a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">You haven't reported any lost items yet.</p>
+                {% endif %}
+            </div>
+
+            <div class="catch-card p-4 mt-4">
+                <h5 class="mb-3">My Found Items</h5>
+                {% if my_found %}
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead><tr><th>Item</th><th>Category</th><th>Status</th></tr></thead>
+                        <tbody>
+                        {% for item in my_found %}
+                            <tr>
+                                <td>{{ item.item_name }}</td>
+                                <td>{{ item.category }}</td>
+                                <td><span class="badge bg-{{ 'success' if item.status=='returned' else 'secondary' }}">{{ item.status }}</span></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">You haven't reported any found items yet.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <div class="catch-card p-4">
+                <h5 class="mb-3">Recent Matches</h5>
+                {% if recent_matches %}
+                    {% for m in recent_matches %}
+                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                        <div>
+                            <strong>{{ m.found_item.item_name }}</strong>
+                            <div class="small text-muted">matched to your "{{ m.lost_item.item_name }}"</div>
+                        </div>
+                        <span class="badge-catch">{{ m.match_score }}%</span>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted mb-0">No matches yet. Report a lost item to get started.</p>
+                {% endif %}
+            </div>
+
+            <div class="catch-card p-4 mt-4">
+                <h5 class="mb-3"><i class="fa-solid fa-trophy text-warning"></i> Top Helpers</h5>
+                {% for u in top_helpers %}
+                <div class="d-flex justify-content-between align-items-center py-1">
+                    <span>{{ loop.index }}. {{ u.name }}</span>
+                    <strong>{{ u.catch_points }} pts</strong>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

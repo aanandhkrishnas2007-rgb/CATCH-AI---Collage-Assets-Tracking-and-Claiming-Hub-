@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Notifications — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="section-title mb-4"><i class="fa-solid fa-bell text-catch-sky"></i> Notifications</h3>
+
+    {% if notifications %}
+        <div class="catch-card">
+            {% for n in notifications %}
+            <div class="d-flex justify-content-between align-items-center p-3 border-bottom">
+                <div>
+                    <span class="badge-catch me-2">{{ n.type }}</span>
+                    {{ n.message }}
+                </div>
+                <span class="small text-muted">{{ n.created_at.strftime('%b %d, %H:%M') }}</span>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="catch-card p-5 text-center">
+            <i class="fa-solid fa-bell-slash fa-2x text-muted mb-3"></i>
+            <p class="mb-0">You're all caught up — no notifications yet.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Manage Items — CATCH Admin{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="section-title mb-4">Manage Items</h3>
+
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#lostTab">Lost Items ({{ lost_items|length }})</a></li>
+        <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#foundTab">Found Items ({{ found_items|length }})</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="lostTab">
+            <div class="catch-card p-3">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead><tr><th>Item</th><th>Reporter</th><th>Category</th><th>Status</th><th></th></tr></thead>
+                        <tbody>
+                        {% for item in lost_items %}
+                        <tr>
+                            <td>{{ item.item_name }}</td>
+                            <td>{{ item.owner.name }}</td>
+                            <td>{{ item.category }}</td>
+                            <td><span class="badge bg-secondary">{{ item.status }}</span></td>
+                            <td>
+                                <form method="POST" action="{{ url_for('admin_delete_lost', item_id=item.id) }}" onsubmit="return confirm('Delete this report?');">
+                                    <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="foundTab">
+            <div class="catch-card p-3">
+                <div class="table-responsive">
+                    <table class="table align-middle">
+                        <thead><tr><th>Item</th><th>Reporter</th><th>Category</th><th>Status</th><th></th></tr></thead>
+                        <tbody>
+                        {% for item in found_items %}
+                        <tr>
+                            <td>{{ item.item_name }}</td>
+                            <td>{{ item.finder.name }}</td>
+                            <td>{{ item.category }}</td>
+                            <td><span class="badge bg-secondary">{{ item.status }}</span></td>
+                            <td>
+                                <form method="POST" action="{{ url_for('admin_delete_found', item_id=item.id) }}" onsubmit="return confirm('Delete this report?');">
+                                    <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

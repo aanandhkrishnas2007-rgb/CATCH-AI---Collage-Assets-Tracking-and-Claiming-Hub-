@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="section-title mb-1"><i class="fa-solid fa-trophy text-warning"></i> Campus Leaderboard</h3>
+    <p class="text-muted mb-4">Students who help return items rise to the top.</p>
+
+    <div class="catch-card">
+        {% for u in top_users %}
+        <div class="d-flex justify-content-between align-items-center p-3 border-bottom leader-row {% if loop.index == 1 %}top-1{% elif loop.index == 2 %}top-2{% elif loop.index == 3 %}top-3{% endif %}">
+            <div class="d-flex align-items-center gap-3">
+                <span class="fw-bold" style="width:28px;">{{ loop.index }}</span>
+                <img src="{{ url_for('uploaded_file', filename=u.profile_picture) if u.profile_picture != 'default.png' else url_for('static', filename='images/avatar-placeholder.svg') }}"
+                     class="rounded-circle" style="width:42px;height:42px;object-fit:cover;">
+                <div>
+                    <div class="fw-semibold">{{ u.name }}</div>
+                    <div class="small text-muted">{{ u.department or "—" }}</div>
+                </div>
+            </div>
+            <div class="text-end">
+                <div class="fw-bold text-catch-sky">{{ u.catch_points }} pts</div>
+                <span class="badge-catch">{{ badge_for(u.catch_points) }}</span>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Report Lost Item — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="catch-form-card">
+                <h3 class="section-title mb-1"><i class="fa-solid fa-magnifying-glass text-catch-sky"></i> Report a Lost Item</h3>
+                <p class="text-muted mb-4">The more detail you give, the better our AI can find a match.</p>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Item Name *</label>
+                            <input type="text" name="item_name" class="form-control" value="{{ form.get('item_name','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Category *</label>
+                            <select name="category" class="form-select" required>
+                                <option value="">Select category</option>
+                                <option>Electronics</option>
+                                <option>Bag / Backpack</option>
+                                <option>ID Card / Documents</option>
+                                <option>Keys</option>
+                                <option>Clothing</option>
+                                <option>Accessories</option>
+                                <option>Books / Stationery</option>
+                                <option>Bottle / Flask</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Brand</label>
+                            <input type="text" name="brand" class="form-control" placeholder="e.g. Apple, JanSport">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Color</label>
+                            <input type="text" name="color" class="form-control" placeholder="e.g. Black, Navy Blue">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" class="form-control" rows="3" placeholder="Describe the item in detail..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Unique Marks / Identifying Feature</label>
+                            <input type="text" name="unique_marks" class="form-control" placeholder="e.g. Scratch on back, sticker of a cat — kept private, used for verification">
+                            <div class="form-text">This is kept private and used later to verify you're the real owner — don't skip it!</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Date Lost</label>
+                            <input type="date" name="date_lost" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Time Lost</label>
+                            <input type="time" name="time_lost" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" placeholder="e.g. Library 2nd Floor">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Reward (Optional)</label>
+                            <input type="text" name="reward" class="form-control" placeholder="e.g. ₹200 / Coffee treat">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Photo</label>
+                            <input type="file" name="image" class="form-control image-upload-input" accept="image/*" data-preview-target="#lostImgPreview">
+                            <img id="lostImgPreview" class="d-none mt-2 rounded" style="max-width:200px;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-catch-primary w-100 mt-4">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Submit &amp; Find AI Matches
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

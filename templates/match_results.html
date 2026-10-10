@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Matches for {{ lost_item.item_name }} — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-4">
+        <div>
+            <h3 class="section-title mb-1">AI Matches for "{{ lost_item.item_name }}"</h3>
+            <p class="text-muted mb-0">Ranked by combined image, description, and attribute similarity.</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary mt-2 mt-md-0">Back to Dashboard</a>
+    </div>
+
+    <div class="catch-card p-3 mb-4 d-flex gap-3 align-items-center">
+        {% if lost_item.image_path %}
+        <img src="{{ url_for('uploaded_file', filename=lost_item.image_path) }}" class="rounded" style="width:70px;height:70px;object-fit:cover;">
+        {% else %}
+        <div class="rounded bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center" style="width:70px;height:70px;">
+            <i class="fa-solid fa-image text-muted"></i>
+        </div>
+        {% endif %}
+        <div>
+            <strong>{{ lost_item.item_name }}</strong>
+            <div class="small text-muted">{{ lost_item.category }} • {{ lost_item.color or "—" }} • Lost at {{ lost_item.location or "unknown location" }}</div>
+        </div>
+    </div>
+
+    {% if matches %}
+        <div class="row g-4">
+            {% for m in matches %}
+            <div class="col-md-6">
+                <div class="catch-card p-3 h-100">
+                    <div class="d-flex gap-3">
+                        {% if m.found_item.image_path %}
+                        <img src="{{ url_for('uploaded_file', filename=m.found_item.image_path) }}" class="rounded" style="width:100px;height:100px;object-fit:cover;">
+                        {% else %}
+                        <div class="rounded bg-secondary bg-opacity-25 d-flex align-items-center justify-content-center" style="width:100px;height:100px;">
+                            <i class="fa-solid fa-image text-muted"></i>
+                        </div>
+                        {% endif %}
+                        <div class="flex-grow-1">
+                            <h6 class="mb-1">{{ m.found_item.item_name }}</h6>
+                            <div class="small text-muted mb-2">
+                                {{ m.found_item.category }} • {{ m.found_item.color or "—" }}<br>
+                                Found at {{ m.found_item.location or "unknown location" }}
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="match-score-ring" data-score="{{ m.match_score }}">{{ m.match_score | round(0, 'floor') | int }}%</div>
+                                <div class="small">
+                                    <div>Image: {{ m.image_score }}%</div>
+                                    <div>Text: {{ m.text_score }}%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 d-flex gap-2">
+                        {% if m.status == "pending" %}
+                            <a href="{{ url_for('verify_match', match_id=m.id) }}" class="btn btn-catch-primary btn-sm flex-grow-1">Verify &amp; Claim</a>
+                        {% elif m.status == "verified" %}
+                            <div class="flex-grow-1">
+                                <span class="badge bg-success py-2 d-block mb-2">Verified — Item Returned</span>
+                                <div class="small bg-light rounded p-2">
+                                    <strong>Finder contact:</strong><br>
+                                    {{ m.found_item.finder.name }} — {{ m.found_item.finder.email }}
+                                    {% if m.found_item.finder.phone %}<br>{{ m.found_item.finder.phone }}{% endif %}
+                                </div>
+                            </div>
+                        {% else %}
+                            <span class="badge bg-secondary flex-grow-1 py-2">Rejected</span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="catch-card p-5 text-center">
+            <i class="fa-solid fa-circle-question fa-2x text-muted mb-3"></i>
+            <p class="mb-0">No strong matches found yet. We'll keep checking new found-item reports automatically — check back soon, or revisit this page after more items are reported.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

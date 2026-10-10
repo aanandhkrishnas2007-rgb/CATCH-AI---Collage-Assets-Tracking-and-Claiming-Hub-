@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="section-title mb-4"><i class="fa-solid fa-user-shield"></i> Admin Dashboard</h3>
+
+    <div class="row g-4">
+        <div class="col-md-3 col-6"><div class="stat-card"><h2>{{ stats.users }}</h2><p>Students</p></div></div>
+        <div class="col-md-3 col-6"><div class="stat-card"><h2>{{ stats.lost_items }}</h2><p>Lost Reports</p></div></div>
+        <div class="col-md-3 col-6"><div class="stat-card"><h2>{{ stats.found_items }}</h2><p>Found Reports</p></div></div>
+        <div class="col-md-3 col-6"><div class="stat-card"><h2>{{ stats.returned }}</h2><p>Returned</p></div></div>
+    </div>
+
+    <div class="d-flex gap-3 my-4">
+        <a href="{{ url_for('admin_manage_users') }}" class="btn btn-outline-primary">Manage Users</a>
+        <a href="{{ url_for('admin_manage_items') }}" class="btn btn-outline-primary">Manage Items</a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="catch-card p-4">
+                <h5 class="mb-3">Recent Lost Reports</h5>
+                {% for item in recent_lost %}
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <span>{{ item.item_name }}</span>
+                    <span class="badge bg-secondary">{{ item.status }}</span>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">No reports yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="catch-card p-4">
+                <h5 class="mb-3">Recent Found Reports</h5>
+                {% for item in recent_found %}
+                <div class="d-flex justify-content-between border-bottom py-2">
+                    <span>{{ item.item_name }}</span>
+                    <span class="badge bg-secondary">{{ item.status }}</span>
+                </div>
+                {% else %}
+                <p class="text-muted mb-0">No reports yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

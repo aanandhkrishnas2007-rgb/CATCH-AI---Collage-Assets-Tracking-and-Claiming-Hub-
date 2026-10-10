@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Manage Users — CATCH Admin{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <h3 class="section-title mb-4">Manage Users</h3>
+    <input type="text" id="itemSearchInput" class="form-control mb-3" placeholder="Search by name or email...">
+    <div class="catch-card p-3">
+        <div class="table-responsive">
+            <table class="table align-middle">
+                <thead><tr><th>Name</th><th>Email</th><th>Department</th><th>Points</th><th>Role</th><th>Joined</th></tr></thead>
+                <tbody>
+                {% for u in users %}
+                <tr class="searchable-row">
+                    <td>{{ u.name }}</td>
+                    <td>{{ u.email }}</td>
+                    <td>{{ u.department or "—" }}</td>
+                    <td>{{ u.catch_points }}</td>
+                    <td>{% if u.is_admin %}<span class="badge bg-primary">Admin</span>{% else %}Student{% endif %}</td>
+                    <td>{{ u.created_at.strftime('%b %d, %Y') }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

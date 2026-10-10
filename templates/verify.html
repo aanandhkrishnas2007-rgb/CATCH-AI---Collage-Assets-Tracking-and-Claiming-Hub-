@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Verify Ownership — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="catch-form-card">
+                <h4 class="section-title mb-1"><i class="fa-solid fa-shield-halved text-catch-sky"></i> Verify Ownership</h4>
+                <p class="text-muted mb-4">To protect the finder and prevent false claims, please confirm a unique detail about your item before we share contact information.</p>
+
+                <div class="alert alert-info small">
+                    Matching: <strong>{{ match.lost_item.item_name }}</strong> ↔ <strong>{{ match.found_item.item_name }}</strong> ({{ match.match_score }}% match)
+                </div>
+
+                <form method="POST">
+                    <label class="form-label">Describe a unique mark, sticker, or identifying feature on this item</label>
+                    <textarea name="answer" class="form-control" rows="3" required placeholder="This should match what you originally entered when reporting the item as lost."></textarea>
+                    <button type="submit" class="btn btn-catch-primary w-100 mt-4">Submit Verification</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

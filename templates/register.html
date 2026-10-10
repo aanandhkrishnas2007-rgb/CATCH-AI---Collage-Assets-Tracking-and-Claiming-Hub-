@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Register — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="catch-form-card">
+                <h3 class="text-center mb-1 section-title">Create Your Account</h3>
+                <p class="text-center text-muted mb-4">Join your campus CATCH community</p>
+                <form method="POST" action="{{ url_for('register') }}" enctype="multipart/form-data">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Full Name *</label>
+                            <input type="text" name="name" class="form-control" value="{{ form.get('name','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Student ID *</label>
+                            <input type="text" name="student_id" class="form-control" value="{{ form.get('student_id','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Department</label>
+                            <input type="text" name="department" class="form-control" value="{{ form.get('department','') }}" placeholder="e.g. Computer Science">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Year</label>
+                            <select name="year" class="form-select">
+                                <option value="">Select Year</option>
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                                <option value="Faculty/Staff">Faculty/Staff</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">College Email *</label>
+                            <input type="email" name="email" class="form-control" value="{{ form.get('email','') }}" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" value="{{ form.get('phone','') }}">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Password *</label>
+                            <input type="password" name="password" class="form-control" required minlength="6">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Confirm Password *</label>
+                            <input type="password" name="confirm_password" class="form-control" required minlength="6">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Profile Picture</label>
+                            <input type="file" name="profile_picture" class="form-control image-upload-input" accept="image/*" data-preview-target="#profilePreview">
+                            <img id="profilePreview" class="d-none mt-2 rounded-circle" style="width:80px;height:80px;object-fit:cover;">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-catch-primary w-100 mt-4">Create Account</button>
+                </form>
+                <p class="text-center mt-3 mb-0 small">
+                    Already have an account? <a href="{{ url_for('login') }}">Log in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

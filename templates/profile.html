@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}My Profile — CATCH{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-lg-5">
+            <div class="catch-form-card">
+                <h4 class="section-title mb-4">Edit Profile</h4>
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="text-center mb-3">
+                        <img src="{{ url_for('uploaded_file', filename=current_user.profile_picture) if current_user.profile_picture != 'default.png' else url_for('static', filename='images/avatar-placeholder.svg') }}"
+                             class="rounded-circle" style="width:100px;height:100px;object-fit:cover;">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Profile Picture</label>
+                        <input type="file" name="profile_picture" class="form-control" accept="image/*">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" value="{{ current_user.name }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Department</label>
+                        <input type="text" name="department" class="form-control" value="{{ current_user.department or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Year</label>
+                        <input type="text" name="year" class="form-control" value="{{ current_user.year or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control" value="{{ current_user.phone or '' }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">New Password <span class="text-muted small">(leave blank to keep current)</span></label>
+                        <input type="password" name="new_password" class="form-control" minlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-catch-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="catch-card p-4 mb-4">
+                <div class="row text-center">
+                    <div class="col-4">
+                        <h4 class="text-catch-sky">{{ current_user.catch_points }}</h4>
+                        <div class="small text-muted">Catch Points</div>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-catch-sky">{{ my_lost | length }}</h4>
+                        <div class="small text-muted">Items Lost</div>
+                    </div>
+                    <div class="col-4">
+                        <h4 class="text-catch-sky">{{ my_found | length }}</h4>
+                        <div class="small text-muted">Items Found</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="catch-card p-4">
+                <h5 class="mb-3">Activity History</h5>
+                {% if my_lost or my_found %}
+                <ul class="list-unstyled mb-0">
+                    {% for item in my_lost %}
+                    <li class="border-bottom py-2"><i class="fa-solid fa-magnifying-glass text-danger me-2"></i>Reported lost: <strong>{{ item.item_name }}</strong> <span class="badge bg-secondary">{{ item.status }}</span></li>
+                    {% endfor %}
+                    {% for item in my_found %}
+                    <li class="border-bottom py-2"><i class="fa-solid fa-hand-holding-heart text-success me-2"></i>Reported found: <strong>{{ item.item_name }}</strong> <span class="badge bg-secondary">{{ item.status }}</span></li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted mb-0">No activity yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
